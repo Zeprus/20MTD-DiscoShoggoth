@@ -44,21 +44,28 @@
 	</Target>
 
 	<!--Release packaging-->
+	<ItemGroup>
+		<TextureFiles Include="$(MSBuildProjectDirectory)\Textures\Bosses\*.*" />
+	</ItemGroup>
 	<Target Name="Package" AfterTargets="Publish">
 		<MakeDir
-			Directories="$(MSBuildProjectDirectory)\release"
+			Directories="$(MSBuildProjectDirectory)\release;$(MSBuildProjectDirectory)\release\Textures"
 		/>
 		<Copy
-			SourceFiles="@(MainAssembly)" DestinationFolder="$(MSBuildProjectDirectory)\release"
+			SourceFiles="@(MainAssembly)"
+			DestinationFolder="$(MSBuildProjectDirectory)\release"
 		/>
 		<Copy
 			SourceFiles="
 				$(MSBuildProjectDirectory)\README.md;
 				$(MSBuildProjectDirectory)\icon.png;
 				$(MSBuildProjectDirectory)\manifest.json
-				$(MSBuildProjectDirectory)\Textures
 			"
 			DestinationFolder="$(MSBuildProjectDirectory)\release"
+		/>
+		<Copy
+			SourceFiles="@(TextureFiles)"
+			DestinationFolder="$(MSBuildProjectDirectory)\release\Textures\"
 		/>
 		<ZipDirectory
 			SourceDirectory="$(MSBuildProjectDirectory)\release"
