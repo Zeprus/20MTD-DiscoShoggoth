@@ -11,7 +11,7 @@
 
   <PropertyGroup Label="Variables">
   	<!-- SET BELOW TO GAME BASE DIRECTORY-->
-    <GameDir>E:\SteamLibrary\steamapps\common\20MinuteTillDawn</GameDir>
+    <GameDir>D:\SteamLibrary\steamapps\common\20MinuteTillDawn</GameDir>
     <BepInExDir>$(GameDir)\BepInEx</BepInExDir>
 	<GameLibDir>$(GameDir)\MinutesTillDawn_Data\Managed</GameLibDir>
   </PropertyGroup>
@@ -36,6 +36,14 @@
 		</Reference>
 	</ItemGroup>
 
+  <!-- Embedd Resource -->
+  <ItemGroup>
+    <Content Remove="res\T_Shoggoth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="res\T_Shoggoth.png" />
+  </ItemGroup>
+
 	<!--Automatic deploy-->
 	<Target Name="Deploy" AfterTargets="Build">
 		<Copy
@@ -44,12 +52,9 @@
 	</Target>
 
 	<!--Release packaging-->
-	<ItemGroup>
-		<TextureFiles Include="$(MSBuildProjectDirectory)\Textures\Bosses\*.*" />
-	</ItemGroup>
 	<Target Name="Package" AfterTargets="Publish">
 		<MakeDir
-			Directories="$(MSBuildProjectDirectory)\release;$(MSBuildProjectDirectory)\release\Textures"
+			Directories="$(MSBuildProjectDirectory)\release"
 		/>
 		<Copy
 			SourceFiles="@(MainAssembly)"
@@ -62,10 +67,6 @@
 				$(MSBuildProjectDirectory)\manifest.json
 			"
 			DestinationFolder="$(MSBuildProjectDirectory)\release"
-		/>
-		<Copy
-			SourceFiles="@(TextureFiles)"
-			DestinationFolder="$(MSBuildProjectDirectory)\release\Textures\"
 		/>
 		<ZipDirectory
 			SourceDirectory="$(MSBuildProjectDirectory)\release"
